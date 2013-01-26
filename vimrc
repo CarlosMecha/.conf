@@ -20,3 +20,6 @@ set laststatus=2
 
 " Format the status line
 set statusline=%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l/%L\ %P
+
+" NERDTree map
+nmap <F2> :NERDTreeToggle<CR>
