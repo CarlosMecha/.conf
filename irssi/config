@@ -266,7 +266,7 @@ settings = {
   core = {
     real_name = "Carlos Mecha";
     user_name = "carlos";
-    nick = "carlos";
+    nick = "CarlosMecha";
   };
   "fe-text" = { actlist_sort = "refnum"; };
   "perl/core/scripts" = {
@@ -274,5 +274,9 @@ settings = {
     awl_display_key = "$Q%K|$N%n $H$C$S";
     awl_display_key_active = "$Q%K|$N%n $H%U$C%n$S";
     awl_display_nokey = "[$N]$H$C$S";
+  };
+  "fe-common/core" = {
+    bell_beeps = "yes";
+    beep_msg_level = "MSGS NOTICES DCC DCCMSGS HILIGHT";
   };
 };
