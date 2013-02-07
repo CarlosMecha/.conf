@@ -111,7 +111,8 @@ channels = (
   { name = "silc"; chatnet = "silc"; autojoin = "No"; },
   { name = "#spring"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "#documentcloud"; chatnet = "Freenode"; autojoin = "yes"; },
-  { name = "#joyent"; chatnet = "Freenode"; autojoin = "yes"; }
+  { name = "#joyent"; chatnet = "Freenode"; autojoin = "yes"; },
+  { name = "#node.js"; chatnet = "Freenode"; autojoin = "yes"; }
 );
 
 aliases = {
@@ -301,13 +302,14 @@ settings = {
 ignores = (
   {
     level = "JOINS PARTS QUITS NICKS";
-    channels = ( "#spring", "#documentcloud", "#joyent" );
+    channels = ( "#spring", "#documentcloud", "#joyent", "#node.js" );
   },
   {
     level = "ACTIONS";
     pattern = "(away|gone)";
     regexp = "yes";
-    channels = ( "#spring", "#documentcloud", "#joyent" );
+    channels = ( "#spring", "#documentcloud", "#joyent", "#node.js" );
   },
-  { level = "PARTS QUITS NICKS"; channels = ( "&bitlbee" ); }
+  { level = "PARTS QUITS NICKS"; channels = ( "&bitlbee" ); },
+  { mask = "MODES"; level = "ALL"; channels = ( "&bitlbee" ); }
 );
