@@ -289,3 +289,16 @@ settings = {
     beep_msg_level = "MSGS NOTICES DCC DCCMSGS HILIGHT";
   };
 };
+ignores = (
+  {
+    level = "JOINS PARTS QUITS NICKS";
+    channels = ( "#spring", "#documentcloud", "#joyent" );
+  },
+  {
+    level = "ACTIONS";
+    pattern = "(away|gone)";
+    regexp = "yes";
+    channels = ( "#spring", "#documentcloud", "#joyent" );
+  },
+  { level = "PARTS QUITS NICKS"; channels = ( "&bitlbee" ); }
+);
