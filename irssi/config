@@ -112,7 +112,8 @@ channels = (
   { name = "#spring"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "#documentcloud"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "#joyent"; chatnet = "Freenode"; autojoin = "yes"; },
-  { name = "#node.js"; chatnet = "Freenode"; autojoin = "yes"; }
+  { name = "#node.js"; chatnet = "Freenode"; autojoin = "yes"; },
+  { name = "#phonegap"; chatnet = "Freenode"; autojoin = "yes"; }
 );
 
 aliases = {
