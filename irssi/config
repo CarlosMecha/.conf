@@ -101,7 +101,7 @@ chatnets = {
   Freenode = {
     type = "IRC";
     nick = "CarlosMecha";
-    autosendcmd = "/msg nickserv identify deVb4cK ; wait 2000";
+    autosendcmd = "/msg nickserv identify ${{ircpass}} ; wait 2000";
   };
   Bitlbee = { type = "IRC"; nick = "carlos"; };
 };

@@ -113,8 +113,13 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# Owl env.
-source ~/.owlrc;
+# Additional bash files.
+if [ -d ~/.bash.d ]; then {
+  for i in ~/.bash.d/*.sh; do {
+    if [ -r $i ]; then {
+      source $i;
+    } fi
+  } done;
+  unset i;
+} fi;
 
-# Android env.
-source ~/.androidrc;
