@@ -101,9 +101,10 @@ chatnets = {
   Freenode = {
     type = "IRC";
     nick = "CarlosMecha";
-    autosendcmd = "/msg nickserv identify ${{ircpass}} ; wait 2000";
+    autosendcmd = "/msg nickserv identify ${{password}} ; wait 2000";
   };
   Bitlbee = { type = "IRC"; nick = "carlos"; };
+  QuakeNet = { type = "IRC"; };
 };
 
 channels = (
@@ -303,13 +304,13 @@ settings = {
 ignores = (
   {
     level = "JOINS PARTS QUITS NICKS";
-    channels = ( "#spring", "#documentcloud", "#joyent", "#node.js" );
+    channels = ( "#spring", "#documentcloud", "#joyent", "#node.js", "#phonegap" );
   },
   {
     level = "ACTIONS";
     pattern = "(away|gone)";
     regexp = "yes";
-    channels = ( "#spring", "#documentcloud", "#joyent", "#node.js" );
+    channels = ( "#spring", "#documentcloud", "#joyent", "#node.js", "#phonegap" );
   },
   { level = "PARTS QUITS NICKS"; channels = ( "&bitlbee" ); },
   { mask = "MODES"; level = "ALL"; channels = ( "&bitlbee" ); }
