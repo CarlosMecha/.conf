@@ -113,6 +113,7 @@ channels = (
   { name = "#spring"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "#documentcloud"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "#node.js"; chatnet = "Freenode"; autojoin = "yes"; }
+  { name = "#atlassiandev"; chatnet = "Freenode"; autojoin = "yes"; }
 );
 
 aliases = {
@@ -305,7 +306,8 @@ ignores = (
     channels = (
       "#spring",
       "#documentcloud",
-      "#node.js"
+      "#node.js",
+      "#atlassiandev"
     );
   },
   {
@@ -315,7 +317,8 @@ ignores = (
     channels = (
       "#spring",
       "#documentcloud",
-      "#node.js"
+      "#node.js",
+      "#atlassiandev"
     );
   },
   { level = "PARTS QUITS NICKS"; channels = ( "&bitlbee" ); },
