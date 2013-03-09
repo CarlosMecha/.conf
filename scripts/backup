@@ -1,0 +1,116 @@
+#!/bin/bash
+
+#
+# Sistema de backups basico para entornos Windows con CygWin.
+# 7bit.es
+#
+# Solo tiene un parametro para definir el fichero con los directorios
+# o ficheros que van a ser salvados. No se ha probado con directorios
+# con espacios. El error se guarda por defecto en la carpeta /var/log/backup.log
+# y el fichero de referencias en /etc/backup/references.xxxx.
+# Todos los backups son guardados en /var/backups/local.
+#
+#
+{
+	CACHE_REFERENCES="";
+	
+	# Log
+	BACKUP_LOG="/var/log/backup.log";
+	#BACKUP_LOG="backup.log";
+
+	# Fichero por defecto.
+	#REFERENCES_FILE="/etc/default/references.backup";
+	REFERENCES_FILE="references.backup";
+
+	# Directorio de backups.
+	BACKUP_DIR="/var/backups/local";
+
+	# Fecha de ejecucion
+	NOW=`date '+%Y%m%d%H%M'`;
+
+	#
+	# Backup del directorio/fichero.
+	# Param: Directorios o ficheros. Con secuencias de escape.
+	#
+	function backup_files() {
+		
+		tar cpfz "$BACKUP_DIR$NOW.backup.tar.gz" $1 1> /dev/null 2>> "$BACKUP_LOG";
+		
+		return $?;
+
+	}
+
+	#
+	# Lectura del fichero de referencias.
+	# Param: Fichero de referencias.
+	# Return: 0 si se ha leido correctamente. 1 otherwhise.
+	#
+	function read_references() {
+		
+		if [ ! -f "$1" ]; then {
+			echo "[$NOW] File $1 not found. Backup failed." >> "$BACKUP_LOG";
+			return 1;
+		} fi;
+
+		COUNT=0;
+		ERRORS=0;
+
+		while read LINE; do {
+
+			FILE=`echo "$LINE" | grep '^\ *[^#].*$'`;
+			if [ "$FILE" == "" ]; then {
+				continue;
+			} elif [ -e "$FILE" ]; then {
+				if [ "$CACHE_REFERENCES" != "" ]; then {
+					CACHE_REFERENCES="$CACHE_REFERENCES $FILE";
+				} else {
+					CACHE_REFERENCES="$FILE";
+				} fi;
+
+				[ $? -eq 0 ] && echo "[$NOW] Added file $FILE to backup." >> "$BACKUP_LOG";
+			} else {
+				echo "[$NOW] File $FILE not found. Not added." >> "$BACKUP_LOG";
+				let "ERRORS=$ERRORS+1";
+			} fi;
+
+			let "COUNT=$COUNT+1";
+
+		} done < "$1";
+
+		echo "[$NOW] Read $COUNT files/directories." >> "$BACKUP_LOG";
+		[ $ERRORS -ne 0 ] && echo "[$NOW] Found $ERRORS errors." >> "$BACKUP_LOG";
+
+		[ $COUNT -ne $ERRORS ] && return 0;
+		return 1;
+	}
+
+	#
+	# Main
+	#
+	{
+
+		if [ ! -f "$BACKUP_LOG" ]; then {
+			touch "$BACKUP_LOG";
+		} fi;
+
+		if [ "$1" != "" ]; then {
+			REFERENCES_FILE="$1";
+		} fi;
+		
+		echo "[$NOW] Init backup with the references in $REFERENCES_FILE" >> "$BACKUP_LOG";
+
+		read_references "$REFERENCES_FILE";
+		
+		[ $? -eq 0 ] && backup_files "$CACHE_REFERENCES";
+
+		if [ $? -ne 0 ]; then {
+			echo "[$NOW] Backup failed." >> "$BACKUP_LOG";
+			exit 1;
+		} fi;
+
+		echo "[$NOW] Backup successful." >> "$BACKUP_LOG";
+		exit 0;
+
+	}
+
+}

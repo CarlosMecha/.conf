@@ -1,0 +1,61 @@
+#!/bin/bash
+
+#
+# Script pensado para hacer pull de archivos originales a un respositorio.
+# Estos archivos podran ser escritos y leidos por los usuarios perteniencientes al grupo
+# {$GROUP_DEV}.
+# usage: pullfile <file> <new-file> [<comments>]
+#
+#
+# TODO Hacerlo en ingles.
+
+GROUP_DEV=developers;
+
+#
+# Obtener la ruta del archivo con el nombre.
+#
+FILE_PATH=$1;
+NEW_FILE_PATH=$2;
+COMMENT=$3;
+
+if [ ! -f "$FILE_PATH" ]; then {
+	echo "[ERROR] El archivo "$FILE_PATH" no existe.";
+	exit 1;
+} fi;
+
+if [ "$NEW_FILE_PATH" == "" ]; then {
+	NEW_FILE_PATH=`basename $FILE_PATH"-repo"`;
+	echo "[WARN] No se ha definido el nombre del archivo nuevo, se utilizara uno por defecto.";
+} fi;
+
+#
+# Comprobando versiones anteriores.
+#
+if [ -f "$NEW_FILE_PATH" ]; then {
+	echo "[WARN] El archivo "$NEW_FILE_PATH" ya existe.";
+	EXIT_LOOP=0;
+	while [ $EXIT_LOOP -eq 0 ]; do {
+		echo "¿Desea sustituirlo? [Y/n]";
+		read ANSWER;
+		if [ "$ANSWER" == "Y" ]; then {
+			EXIT_LOOP=1;
+		} elif [ "$ANSWER" == "n" ]; then {
+			echo "Abortado.";
+			exit 0;
+		} fi;
+	} done;
+} fi;
+
+#
+# Modificacion del fichero.
+#
+echo "[INFO] Recuperando archivo "$FILE_PATH"...";
+echo -e ">["$FILE_PATH"]<\n#[ "$COMMENT" ]#\n#[ "`date` "]#\n" | cat - $FILE_PATH > $NEW_FILE_PATH;
+
+echo "[INFO] Modificando permisos de "$NEW_FILE_PATH"...";
+chown root:$GROUP_DEV $NEW_FILE_PATH;
+chmod 770 $NEW_FILE_PATH;
+
+echo "[INFO] Pull de "$FILE_PATH" al archivo "$NEW_FILE_PATH" completado.";
+exit 0;
+

@@ -1,0 +1,130 @@
+#!/bin/bash
+
+. /etc/default/rcS; # Atributos básicos de los demonios.
+. /lib/lsb/init-functions; # Libreria de funciones para aplicaciones init.
+
+#
+# Configuración de IPTABLES.
+#
+# @description Script de configuración de iptables para redigir el tráfico de una interfaz de red a la otra.
+# @author Carlos A. Rodríguez Mecha
+# @version v1.0
+# @date 06/05/2010
+#
+{
+
+	# Variables globales:
+	IfEXT="eth0"; # Interfaz de red externa.
+	IfINT="eth1"; # Interfaz de red interna.
+
+	# 
+	# Función reenvio: Modifica el sistema para poder realizar el reenvio de paquetes ajenos.
+	# @return Sólo devuelve 0 si la ejecución ha sido correcta.
+	#
+	function reenvio() {
+		act=$1;
+		error=0;
+		log_begin_msg "Activando ip_forward...";
+		echo $act > /proc/sys/net/ipv4/ip_forward || error=-1;
+		if [ $error -lt 0 ];
+			then
+				log_warning_msg "No se pudo activar la variable.";
+				exit -1;
+		fi;
+		log_end_msg 0;
+		log_success_msg "Activado correctamente.";
+		return 0;
+	}
+
+	# 
+	# Función borrar: Se borran las reglas anteriores para añadir las nuevas.
+	# @return Sólo devuelve 0 si la ejecución ha sido correcta.
+	#
+	function borrar() {
+		error=0;
+		log_begin_msg "Borrando reglas anteriores...";
+		iptables -F || error=-1;
+		iptables -X || error=-1;
+		iptables -Z || error=-1;
+		iptables -t nat -F || error=-1;
+		iptables -t mangle -F || error=-1;
+		if [ $error -lt 0 ];
+			then
+				log_warning_msg "Se produjo un error en alguna de las reglas";
+				exit -1;
+		fi;
+		log_end_msg 0;
+		log_success_msg "Borradas correctamente.";
+		return 0;
+	}
+
+	# 
+	# Función politicas: Crea las reglas de las políticas por defecto.
+	# @return Sólo devuelve 0 si la ejecución ha sido correcta.
+	#
+	function politicas(){
+		error=0;
+		log_begin_msg "Aplicando nuevas políticas...";
+		iptables -P INPUT ACCEPT || error=-1;
+		iptables -P OUTPUT ACCEPT || error=-1;
+		iptables -P FORWARD DROP || error=-1; 
+		iptables -t nat -P PREROUTING ACCEPT || error=-1;
+		iptables -t nat -P POSTROUTING ACCEPT || error=-1;
+		if [ $error -lt 0 ];
+			then
+				log_warning_msg "Se produjo un error en alguna de las reglas";
+				exit -1;
+		fi;
+		log_end_msg 0;
+		log_success_msg "Aplicadas correctamente.";
+		return 0;
+	}
+	
+	# 
+	# Función reglasReenvio: Crea las reglas para el reenvio de paquetes.
+	# @return Sólo devuelve 0 si la ejecución ha sido correcta.
+	#
+	function reglasReenvio() {
+		error=0;
+		log_begin_msg "Aplicando reglas de reenvio...";
+		# Marcar los paquetes salientes con su IP de origen.
+		iptables -t nat -A POSTROUTING -o $IfEXT -j MASQUERADE || error=-1;
+		# Aceptar los paquetes para reenviar procedentes de la red local.
+		iptables -A FORWARD -i $IfINT -o $IfEXT -j ACCEPT || error=-1; 
+		# Aceptar los paquetes para reenviar procedentes de internet de conexiones ya establecidas.
+		iptables -A FORWARD -i $IfEXT -o $IfINT -m state --state RELATED,ESTABLISHED -j ACCEPT || error=-1; 
+		if [ $error -lt 0 ];
+			then
+				log_warning_msg "Se produjo un error en alguna de las reglas";
+				exit -1;
+		fi;
+		log_end_msg 0;
+		log_success_msg "Aplicadas correctamente.";
+		return 0;
+	}
+
+	# 
+	# Función main: Función principal.
+	# @return Número negativo si no se ha completado la ejecución.
+	#
+	{
+
+		log_begin_msg "Ejecutando las reglas del Firewall...";
+		
+		if [ "$1" = "delete" ]; then {
+			borrar;
+			reenvio 0;
+			exit 0;
+		} fi;
+
+		reenvio 1; # Activar el ip_forward.
+		borrar; # Borrar las reglas anteriores.
+		politicas; # Activar las políticas por defecto.
+		reglasReenvio; # Reglas básicas de reenvio.
+		
+		log_end_msg 0;
+		log_success_msg "Operación completada.";
+		exit 0;
+	}
+
+}

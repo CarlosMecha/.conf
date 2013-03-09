@@ -1,0 +1,8 @@
+>[/sbin/update-freedns]<
+#[  ]#
+#[ Thu Jun 28 12:28:03 PDT 2012 ]#
+
+#!/bin/bash
+cd /tmp
+wget -q --read-timeout=0.0 --waitretry=5 --tries=400 --background <url>
+exit 0

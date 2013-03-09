@@ -1,0 +1,97 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:          dropboxd
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Dropbox
+# Description:       Demonio para las instancias Dropbox
+### END INIT INFO
+
+. /etc/default/rcS # Libreria rc.
+. /lib/lsb/init-functions # Libreria init-functions.
+
+#
+# Script para inicializar dropbox y las instancias secundarias.
+# @author Kaplan
+# @version v1.0
+# @date 15/03/2010
+#
+{
+
+	# Variables:
+	DROPBOX_BIN=".dropbox-dist/dropboxd";
+	DROPBOX_DIR="/mnt/Box/Dropbox";
+	CUENTAS="100060970 khaplan"; # Separadas por espacios.
+	errores=0;
+
+	#
+	# Función instanciaSecundaria: Inicia la instancia indicada.
+	# @param instance Instancia a iniciar.
+	# @return Devuelve 0 si la instancia se ha podido iniciar correctamente.
+	#
+	function instanciaSecundaria() {
+		log_action_begin_msg "Iniciando instancia secundaria "$1;
+		HOME=$DROPBOX_DIR/$1 $DROPBOX_DIR/$1/$DROPBOX_BIN >> /dev/null &
+                if [ ! $? -eq 0 ]; then {
+                        log_warning_msg "Problema con la instancia secundaria.";
+			log_action_end_msg 1;
+                        errores=1;
+                        return -1;
+                } else log_action_end_msg 0;
+		fi;
+                return 0;  
+	}
+
+	#
+	# Función 'main'.
+	#
+	{
+		case $1 in
+		"nodaemon")
+			pidof dropbox;
+			if [ $? -eq 0 ]; then {
+				$0 stop;
+			} else {
+				$0 start;
+			} fi;
+			;;
+
+		"start")
+			log_begin_msg "Comenzando a iniciar las instancias Dropbox";
+
+		        for cuenta in $CUENTAS; do {
+				if [ -x $DROPBOX_DIR/$cuenta/$DROPBOX_BIN ]; then {
+                	        	instanciaSecundaria $cuenta;
+				} fi;
+		        } done;
+
+			if [ $errores -eq 0 ]; then {
+		                log_end_msg 0;
+                	        log_success_msg "Instancias completadas";
+                	} else {
+		                log_end_msg 1;
+		                log_warning_msg "Alguna cuenta no ha podido ser activada";
+		        } fi;
+			;;
+
+		"stop")
+			killall dropbox;
+			;;
+
+		"restart")
+			$0 stop;
+			$0 start;
+			;;
+		"reload"|"force-reload")
+        		echo "Error: argumento '$1' no soportado" >&2;
+        		exit 3
+        		;;
+		*)
+			echo "Utilización: /etc/init.d/i-dropbox {start|stop|restart|nodaemon}";
+		esac;
+		exit 0;
+	}	
+}

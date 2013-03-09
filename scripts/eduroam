@@ -1,0 +1,32 @@
+#!/bin/bash
+
+#
+# Script de inicialización de wicd-gtk para redes eduroam.
+# @author Carlos A. Rodríguez Mecha
+# @date 10/11/2010
+# @version 1.0
+#
+{
+
+	# Variables:
+	
+
+	#
+	# Función principal.
+	#
+	{
+
+		# 1. Se para el servicio de network-manager.
+		sudo service network-manager stop;
+
+		# 2. Mata el proceso del network-manager.
+		killall nm-applet;
+
+		# 3. Inicia el Wicd.
+		wicd-gtk;
+
+		exit 0;
+
+
+	}
+}

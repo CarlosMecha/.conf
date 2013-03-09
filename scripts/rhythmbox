@@ -1,0 +1,57 @@
+#!/bin/bash
+
+#
+# Script para iniciar y apagar el programa rhythmbox con el fichero determinado a través de su URI. 
+# Específico para radios online. Se pueden añadir más opciones al propio programa escribíendolas
+# a continuación de la URI.
+#
+# @author Kaplan
+# @date 07/04/2010
+# @version v1.0
+#
+{
+
+	# Variables:
+	COMANDO="rhythmbox-client";
+
+	#
+	# Función 'main'.
+	# 
+	{
+
+		pidof rhythmbox;
+                if [ $? -eq 0 ]; then {
+                	killall rhythmbox;
+			exit 0;
+		} fi;
+
+		if [ $# -eq 0 ]; then {
+                        echo "ERROR: No se ha especificado el archivo a reproducir";
+                        exit -1;
+                } fi;
+
+		$COMANDO;
+		$COMANDO "--play-uri=$1";
+		sleep 5;
+		$COMANDO "--hide";
+
+		if [ $# -le 2 ]; then {
+			exit 0;
+		} fi;
+		
+		URI=1;
+		for param in $*; do {
+			if [ $URI -eq 1 ]; then {
+				URI=0;
+			} else {
+				COMANDO=$COMANDO" "$param;
+			} fi;
+		} done;
+
+		echo $COMANDO;
+		$COMANDO;
+
+		exit 0;
+	}
+}
+
