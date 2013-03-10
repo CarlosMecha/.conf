@@ -1,0 +1,52 @@
+To: ${email}
+Subject: Nueva cuenta de usuario.
+
+Hola!
+
+He creado una cuenta para ti en mi servidor 7bit.es. Debido a que aun
+esta en proceso de mejora necesito feedback para ver las necesidades
+de cada usuario.
+
+Ya sabes como contactar conmigo: mecha.carlos@gmail.com
+
+Nombre de usuario: ${user}
+Tu contraseña provisional es: ${pass}
+Recomiendo encarecidamente que la cambies nada mas entrar en el sistema.
+
+Puedes acceder a traves de SSH mediante: $ ssh ${user}@7bit.es
+
+Por ahora el X Server esta desactivado, pero avisame si lo necesitas.
+
+Por ser tu dispones de:
+ - Uptime 97% (mas o menos)
+ - 8 GB para lo que tu quieras (ampliable segun necesidades)
+ - Acceso por SFTP para montaje de carpetas en tu localhost
+ - Shell multicolor!!
+
+Servicios actules en marcha:
+ - Repositorio GIT (contacta conmigo para crear tu proyecto y darle permisos
+ a quien tu quieras.
+ - Backups semanales.
+ - Rotaciones de log cada semana (en algunos casos diarios)
+ - Servidor web Apache con PHP y Perl (accesible mediante http://7bit.es/~${user})
+ - PostgreSQL y SQLite
+ - Backups personalizados.
+
+Proximamente:
+ - Gitweb
+ - Tomcat6
+ - Ruby On Rails sobre Apache
+ - Node.js
+ - Repositorio Latex
+
+Todo comentario, ayuda y anotacion seran bienvenidos!
+
+Un saludo!
+
+Carlos.
+
+P.D.: El servidor aun tiene que madurar, por lo que la politica a seguir es
+convivencia amigable entre usuarios :)
+
+ - Mensaje autogenerado por 7bit.es (este buzon no sera revisado).
+

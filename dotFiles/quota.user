@@ -1,0 +1,8 @@
+>[quota.user]<
+#[ Archivo de configuracion de quota para 8 GBs para un usuario. Se genera mediante el comando edquota. ]#
+#[ Mon Jun 4 14:13:21 PDT 2012 ]#
+
+Disk quotas for user antonio (uid 1001): 
+     Filesystem  blocks   quota   limit   grace   files   quota   limit   grace
+/dev/disk/by-uuid/e27684cd-0cbf-4a2c-8c00-f539c1e28868
+                     36       0 8388608               9       0       0        
