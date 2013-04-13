@@ -23,3 +23,6 @@ nmap <F2> :NERDTreeToggle<CR>
 
 " JSHint map
 nmap <F4> :JSHint<CR>
+
+" C++ syntax in *.ino and *.pde files (Arduino)
+autocmd BufNewFile,BufReadPost *.ino,*.pde set filetype=cpp
