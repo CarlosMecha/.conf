@@ -1,0 +1,6 @@
+! URxvt
+
+URxvt*.saveLines: 12000
+URxvt*.background: Black
+URxvt*.foreground: Green3
+URxvt*.scrollBar: false
