@@ -1,0 +1,21 @@
+#!/bin/bash
+
+#
+# Initialization script for DWM.
+#
+
+# Set window manager name for Java apps.
+wmname LG3D
+
+# Additional init files.
+if [ -d ~/.dwm.d ]; then {
+  for i in ~/.dwm.d/*.sh; do {
+    if [ -r $i ]; then {
+      source $i;
+    } fi
+  } done;
+  unset i;
+} fi;
+
+exec /usr/local/bin/dwm > /dev/null
+
