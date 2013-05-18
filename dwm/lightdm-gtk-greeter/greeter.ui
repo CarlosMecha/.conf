@@ -28,7 +28,8 @@
             <property name="spacing">6</property>
             <child>
               <object class="GtkImage" id="image1">
-                <property name="visible">True</property>
+                <!-- Modificado -->
+                <property name="visible">False</property>
                 <property name="can_focus">False</property>
                 <property name="pixel_size">64</property>
                 <property name="icon_name">computer</property>
@@ -125,15 +126,14 @@
                 </child>
                 <child>
                   <object class="GtkHBox" id="hbox2">
-                    <property name="visible">True</property>
+                    <!-- Modificado -->
+                    <property name="visible">False</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">6</property>
                     <child>
                       <object class="GtkComboBox" id="session_combobox">
                         <property name="can_focus">False</property>
                         <property name="model">session_liststore</property>
-                        <!-- Anyadido -->
-                        <property name="visible">False</property>
                       </object>
                       <packing>
                         <property name="expand">True</property>
