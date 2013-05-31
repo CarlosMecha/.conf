@@ -1,0 +1,16 @@
+#!/bin/bash
+
+FORMAT_DATE='+%a %d-%m %H:%M';
+FORMAT_TIME='+%H:%M';
+
+while true; do {
+
+  LOCAL_DATE=`date "$FORMAT_DATE"`;
+  SF_DATE=`TZ="America/Los_Angeles" date "$FORMAT_TIME"`;
+  OSAKA_DATE=`TZ="Asia/Tokyo" date "$FORMAT_TIME"`;
+
+  xsetroot -name "SF: $SF_DATE | OSAKA: $OSAKA_DATE | $LOCAL_DATE";
+
+  sleep 20;
+
+} done;
