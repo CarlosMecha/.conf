@@ -1,15 +1,24 @@
 #!/bin/bash
 
+# Date
 FORMAT_DATE='+%a %d-%m %H:%M';
 FORMAT_TIME='+%H:%M';
 
 while true; do {
 
+  # Date
   LOCAL_DATE=`date "$FORMAT_DATE"`;
   SF_DATE=`TZ="America/Los_Angeles" date "$FORMAT_TIME"`;
   OSAKA_DATE=`TZ="Asia/Tokyo" date "$FORMAT_TIME"`;
 
-  xsetroot -name "SF: $SF_DATE | OSAKA: $OSAKA_DATE | $LOCAL_DATE";
+  # Battery
+  BATTERY=`acpi -b | sed 's/Battery\ [[:digit:]]:\ .*,\ \([[:digit:]]\+\)%.*/\1/'`;
+  ADAPTER=`acpi -a | sed -e 's/Adapter\ [[:digit:]]:\ on-line/¤/' -e 's/Adapter\ [[:digit:]]:\ off-line/¦/'`;
+
+  test "$ADAPTER" = "¦" -a  "$BATTERY" -le "15" && MOD_BATTERY="!";
+  test -z "$BATTERY" && BATTERY="x" || BATTERY=$MOD_BATTERY$BATTERY"%"
+
+  xsetroot -name "B: $ADAPTER $BATTERY | SF: $SF_DATE | OSAKA: $OSAKA_DATE | $LOCAL_DATE";
 
   sleep 20;
 
