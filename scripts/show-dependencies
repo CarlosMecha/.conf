@@ -1,0 +1,4 @@
+#!/bin/bash
+
+apt-cache depends "$1" | grep Depends | sed "s/.*ends:\ //" | tr '\n' ' ';
+
