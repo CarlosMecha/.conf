@@ -1,0 +1,23 @@
+#
+# Sources scripts in the $HOME/.xinit.d folder.
+#
+# Those will be executed before the display manager/window manager/term starts.
+#
+# Each script should not have any extension (see run-parts manual).
+# The scripts will run alphabeticaly.
+#
+
+XINIT_D_DIR="$HOME/.xinit.d";
+
+if [ -d $XINIT_D_DIR ]; then {
+  XINIT_FILES=`run-parts --list $XINIT_D_DIR`;
+  set +e;
+  for i in $XINIT_FILES; do {
+    . $i;
+  } done;
+  set -e;
+  unset $XINIT_FILES;
+} fi;
+
+unset XINIT_D_DIR;
+
