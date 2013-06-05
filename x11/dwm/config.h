@@ -16,7 +16,7 @@ static const Bool showbar           = True;     /* False means no bar */
 static const Bool topbar            = True;     /* False means bottom bar */
 
 /* tagging */
-static const char *tags[] = { "\uE000", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "\uE000", "\uE001", "\uE002", "\uE003", "\uE004", "\uE005", "\uE006", "\uE00E", "\uE008" };
 
 static const Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating   monitor */
@@ -31,9 +31,12 @@ static const Bool resizehints = True; /* True means respect size hints in tiled 
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "><>",      NULL },    /* no layout function means floating behavior */
-	{ "[M]",      monocle },
+	//{ "[]=",      tile },    /* first entry is default */
+	{ "\uE009",      tile },    /* first entry is default */
+	//{ "><>",      NULL },    /* no layout function means floating behavior */
+	{ "\uE00A",      NULL },    /* no layout function means floating behavior */
+	//{ "[M]",      monocle },
+	{ "\uE00B",      monocle },
 };
 
 /* key definitions */

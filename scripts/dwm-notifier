@@ -1,24 +1,32 @@
 #!/bin/bash
 
+# Special characters.
+BATTERY_I=`echo -e '\uE01C'`;
+ADAPTER_I=`echo -e '\uE018'`;
+CLOCK_I=`echo -e '\uE016'`;
+ARROW_I=`echo -e '\uE019'`;
+
 # Date
-FORMAT_DATE='+%a %d-%m %H:%M';
+FORMAT_DATE='+%a %d-%m';
 FORMAT_TIME='+%H:%M';
 
 while true; do {
 
   # Date
+  ES_TIME=`TZ="Europe/Madrid" date "$FORMAT_TIME"`;
+  PC_TIME=`TZ="America/Los_Angeles" date "$FORMAT_TIME"`;
+  JP_TIME=`TZ="Asia/Tokyo" date "$FORMAT_TIME"`;
   LOCAL_DATE=`date "$FORMAT_DATE"`;
-  SF_DATE=`TZ="America/Los_Angeles" date "$FORMAT_TIME"`;
-  OSAKA_DATE=`TZ="Asia/Tokyo" date "$FORMAT_TIME"`;
 
   # Battery
   BATTERY=`acpi -b | sed 's/Battery\ [[:digit:]]:\ .*,\ \([[:digit:]]\+\)%.*/\1/'`;
-  ADAPTER=`acpi -a | sed -e 's/Adapter\ [[:digit:]]:\ on-line/¤/' -e 's/Adapter\ [[:digit:]]:\ off-line/¦/'`;
+  ADAPTER=`acpi -a | sed 's/Adapter\ [[:digit:]]:\ \(.*\)-line/\1/'`;
 
-  test "$ADAPTER" = "¦" -a  "$BATTERY" -le "15" && MOD_BATTERY="!";
-  test -z "$BATTERY" && BATTERY="x" || BATTERY=$MOD_BATTERY$BATTERY"%"
+  test "$ADAPTER" = "off" -a  "$BATTERY" -le "15" && WARN_BATTERY="!";
+  test "$ADAPTER" = "on" && MOD_BATTERY=$ADAPTER_I || MOD_BATTERY=$BATTERY_I;
+  test -z "$BATTERY" && BATTERY="x" || BATTERY="$WARN_BATTERY $BATTERY%";
 
-  xsetroot -name "B: $ADAPTER $BATTERY | SF: $SF_DATE | OSAKA: $OSAKA_DATE | $LOCAL_DATE";
+  xsetroot -name "$MOD_BATTERY $BATTERY | PC $CLOCK_I $PC_TIME | JP $CLOCK_I $JS_TIME | ES $CLOCK_I $ES_TIME $ARROW_I $LOCAL_DATE";
 
   sleep 20;
 
