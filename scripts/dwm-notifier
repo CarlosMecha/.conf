@@ -7,7 +7,7 @@ CLOCK_I=`echo -e '\uE016'`;
 ARROW_I=`echo -e '\uE019'`;
 
 # Date
-FORMAT_DATE='+%a %d-%m';
+FORMAT_DATE='+%a %d %b';
 FORMAT_TIME='+%H:%M';
 
 while true; do {
@@ -26,7 +26,7 @@ while true; do {
   test "$ADAPTER" = "on" && MOD_BATTERY=$ADAPTER_I || MOD_BATTERY=$BATTERY_I;
   test -z "$BATTERY" && BATTERY="x" || BATTERY="$WARN_BATTERY $BATTERY%";
 
-  xsetroot -name "$MOD_BATTERY $BATTERY | PC $CLOCK_I $PC_TIME | JP $CLOCK_I $JS_TIME | ES $CLOCK_I $ES_TIME $ARROW_I $LOCAL_DATE";
+  xsetroot -name "| B: $MOD_BATTERY $BATTERY | PC $CLOCK_I $PC_TIME | JP $CLOCK_I $JP_TIME | ES $CLOCK_I $ES_TIME $ARROW_I $LOCAL_DATE";
 
   sleep 20;
 
