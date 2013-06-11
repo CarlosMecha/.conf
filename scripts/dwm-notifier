@@ -27,11 +27,17 @@ while true; do {
   test "$ADAPTER" = "on" && MOD_BATTERY=$ADAPTER_I || MOD_BATTERY=$BATTERY_I;
   test -z "$BATTERY" && BATTERY="x" || BATTERY="$WARN_BATTERY $BATTERY%";
 
+  # Mem
+  MEM_TOTAL=`head -n1 /proc/meminfo | sed 's/MemTotal:\ *\([[:digit:]]\+\)\ .*/\1/'`;
+  MEM_FREE=`head -n2 /proc/meminfo | grep "MemFree" | sed 's/MemFree:\ *\([[:digit:]]\+\)\ .*/\1/'`;
+  MEM_PERC_FREE=`expr $MEM_FREE \* 100 / $MEM_TOTAL`;
+  MEM_PERC_USED=`expr 100 - $MEM_PERC_FREE`;
+
   # Dropbox
   DROPBOX_STATUS=`dropbox status | grep 'Updating'`;
   test -z "$DROPBOX_STATUS" && DROPBOX="" || DROPBOX="| D: $ARROW_DOWN_I$ARROW_UP_I ";
 
-  xsetroot -name "$DROPBOX| B: $MOD_BATTERY $BATTERY | PC $CLOCK_I $PC_TIME | JP $CLOCK_I $JP_TIME | ES $CLOCK_I $ES_TIME $ARROW_I $LOCAL_DATE";
+  xsetroot -name "$DROPBOX| Mem $MEM_PERC_USED% | B: $MOD_BATTERY $BATTERY | PC $CLOCK_I $PC_TIME | JP $CLOCK_I $JP_TIME | ES $CLOCK_I $ES_TIME $ARROW_I $LOCAL_DATE";
 
   sleep 20;
 
