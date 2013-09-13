@@ -1,3 +1,4 @@
+#!/bin/bash
 #
 # Simple WIFI portable Hotspot.
 #
@@ -27,7 +28,7 @@ iwconfig $OUT_IFACE mode Master;
 ifconfig $OUT_IFACE $IP;
 echo "1" > /proc/sys/net/ipv4/ip_forward;
 iptables -t nat -A POSTROUTING -o $IN_IFACE -j MASQUERADE;
-hostapd $CONF 2>&1 >> /dev/null &
+nohup hostapd $CONF 2>&1 >> /dev/null &
 
 unset CONF;
 unset IP;
