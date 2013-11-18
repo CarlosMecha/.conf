@@ -1,0 +1,5 @@
+[user]
+        name = Carlos Mecha
+        email = mecha.carlos@gmail.com
+[core]
+        editor = vim
