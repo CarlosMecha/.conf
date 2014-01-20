@@ -1,0 +1,37 @@
+#!/bin/bash
+
+#
+# A tinny script based on:
+# http://hoyhabloyo.wordpress.com/2012/01/18/xfce-display-switching-dual-single-monitor/
+# to configure automatically an external display.
+#
+{
+
+  INT_DISPLAY='LVDS1';
+  EXT_DISPLAY='VGA1';
+  EXT_DISPLAY_STATUS=`cat /sys/class/drm/card0-VGA-1/status`;
+
+  function activate_external() {
+    xrandr --output "$INT_DISPLAY" --off
+    xrandr --output "$EXT_DISPLAY" --auto
+  }
+
+  function deactivate_external() {
+    xrandr --output "$EXT_DISPLAY" --off
+    xrandr --output "$INT_DISPLAY" --auto
+  }
+
+  # Main
+  {
+
+    if [ "$EXT_DISPLAY_STATUS" == "connected" ]; then {
+      activate_external;
+    } else {
+      deactivate_external;
+    } fi;
+
+    exit 0
+
+  }
+
+}
