@@ -11,7 +11,7 @@
 #
 # By default this script does nothing.
 
-# Deactivate bluetooth by default.
-rfkill block bluetooth;
+# Disable Bluetooth by default
+rfkill block bluetooth
 
 exit 0
