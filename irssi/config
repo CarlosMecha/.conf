@@ -67,6 +67,12 @@ chatnets = {
     max_msgs = "3";
     max_whois = "30";
   };
+  QuakeNet = {
+    type = "IRC";
+    max_kicks = "1";
+    max_msgs = "3";
+    max_whois = "30";
+  };
   OFTC = { 
     type = "IRC";
     max_kicks = "1";
@@ -104,16 +110,12 @@ chatnets = {
     autosendcmd = "/msg nickserv identify ${{password}} ; wait 2000";
   };
   Bitlbee = { type = "IRC"; nick = "carlos"; };
-  QuakeNet = { type = "IRC"; };
 };
 
 channels = (
-  { name = "#irssi"; chatnet = "ircnet"; autojoin = "No"; },
-  { name = "silc"; chatnet = "silc"; autojoin = "No"; },
   { name = "#spring"; chatnet = "Freenode"; autojoin = "yes"; },
-  { name = "#documentcloud"; chatnet = "Freenode"; autojoin = "yes"; },
-  { name = "#node.js"; chatnet = "Freenode"; autojoin = "yes"; }
-  { name = "#atlassiandev"; chatnet = "Freenode"; autojoin = "yes"; }
+  { name = "#clojure"; chatnet = "Freenode"; autojoin = "yes"; },
+  { name = "#debian"; chatnet = "Freenode"; autojoin = "yes"; }
 );
 
 aliases = {
@@ -273,6 +275,7 @@ statusbar = {
         topicbarend = { priority = "100"; alignment = "right"; };
       };
     };
+    # Advanced Window List
     awl_0 = {
       items = {
         barstart = { priority = "100"; };
@@ -294,6 +297,7 @@ settings = {
     awl_display_key = "$Q%K|$N%n $H$C$S";
     awl_display_key_active = "$Q%K|$N%n $H%U$C%n$S";
     awl_display_nokey = "[$N]$H$C$S";
+    awl_viewer = "no";
   };
   "fe-common/core" = {
     bell_beeps = "yes";
@@ -303,23 +307,13 @@ settings = {
 ignores = (
   {
     level = "JOINS PARTS QUITS NICKS";
-    channels = (
-      "#spring",
-      "#documentcloud",
-      "#node.js",
-      "#atlassiandev"
-    );
+    channels = ( "#spring", "#debian", "#clojure" );
   },
   {
     level = "ACTIONS";
     pattern = "(away|gone)";
     regexp = "yes";
-    channels = (
-      "#spring",
-      "#documentcloud",
-      "#node.js",
-      "#atlassiandev"
-    );
+    channels = ( "#spring", "#debian", "#clojure" );
   },
   { level = "PARTS QUITS NICKS"; channels = ( "&bitlbee" ); },
   { mask = "MODES"; level = "ALL"; channels = ( "&bitlbee" ); }

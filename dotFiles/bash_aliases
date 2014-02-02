@@ -1,3 +1,6 @@
 alias cloud='ssh c.cmecha.com'
 alias tmux='tmux -2'
 alias irssi='tmux rename-window irssi; ssh -t c.cmecha.com irssi'
+
+# Pulselocker
+alias vpulselocker='tmux rename-window pulselocker; ssh root@192.168.56.2'
