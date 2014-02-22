@@ -21,8 +21,8 @@ set statusline=%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l/%L\ %P
 " NERDTree map
 nmap <F2> :NERDTreeToggle<CR>
 
-" JSHint map
-nmap <F4> :JSHint<CR>
-
 " C++ syntax in *.ino and *.pde files (Arduino)
 autocmd BufNewFile,BufReadPost *.ino,*.pde set filetype=cpp
+
+" Markdown syntax in *.md files
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
