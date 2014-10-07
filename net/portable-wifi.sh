@@ -30,8 +30,8 @@ iwconfig $OUT_IFACE mode Master;
 ifconfig $OUT_IFACE $IP;
 echo "1" > /proc/sys/net/ipv4/ip_forward;
 iptables -t nat -A POSTROUTING -o $IN_IFACE -j MASQUERADE;
-nohup dhcpd -cf $DHCP_CONF 2>&1 >> /dev/null &
 nohup hostapd $CONF 2>&1 >> /dev/null &
+dhcpd -cf $DHCP_CONF 2>&1 >> /dev/null
 
 unset CONF;
 unset DHCP_CONF;
