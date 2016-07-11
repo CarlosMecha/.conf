@@ -6,8 +6,8 @@ set shortmess=I
 syntax on
 set nu
 set smartindent
-set softtabstop=2
-set shiftwidth=2
+set softtabstop=4
+set shiftwidth=4
 set expandtab
 
 set encoding=utf-8
@@ -26,3 +26,8 @@ autocmd BufNewFile,BufReadPost *.ino,*.pde set filetype=cpp
 
 " Markdown syntax in *.md files
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+
+" Set paste toggle
+set pastetoggle=<F8>
+
+colo slate
