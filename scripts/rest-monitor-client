@@ -36,6 +36,7 @@ def format_info(info):
         print '<img>/home/carlos/Documents/busy.png</img>'
     else:
         print '<img>/home/carlos/Documents/free.png</img>'
+        print '<tool>cpu: {}, mem: {}%, swap: {}%, disk: {}%</tool>'.format(', '.join(map(lambda x: str(x) + '%', info['cpu'])), info['mem'], info['swap'], info['disk'])
 
 
 if __name__ == "__main__":
