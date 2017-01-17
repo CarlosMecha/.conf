@@ -1,0 +1,45 @@
+#!/usr/bin/python
+
+import json
+import urllib2
+
+TOKEN='$2a$10$92YeBZsJH//9fFS4QH/DUuNzx/GSiH5INuZwtfBjHhrwaUGD.dOqK'
+
+def get_info():
+    """
+    Performs a GET request to the monitoring system.
+    """
+    request = urllib2.Request('http://cloud.cmecha.com:3344/', headers={ 'Auth-Token': TOKEN })
+
+    try:
+        response = urllib2.urlopen(request)
+        content = response.read()
+        return json.loads(content)
+    except urllib2.HTTPError as e:
+        if e.code == 403:
+            return { 'error': 'Authentication error' }
+        elif e.code == 404:
+            return { 'error': 'Server not found' }
+        elif e.code == 500:
+            return { 'error': 'Internal error' }
+    except urllib2.URLError as e:
+        return { 'error': 'The server is down' }
+    finally:
+        try:
+            reponse.close()
+        except NameError:
+            pass
+
+def format_info(info):
+
+    if 'error' in info:
+        print '<img>/home/carlos/Documents/busy.png</img>'
+    else:
+        print '<img>/home/carlos/Documents/free.png</img>'
+
+
+if __name__ == "__main__":
+
+    info = get_info()
+    format_info(info)
+
